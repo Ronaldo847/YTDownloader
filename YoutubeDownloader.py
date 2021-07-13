@@ -1,6 +1,6 @@
 import pafy
 import time
-import IPython.display import clear_output
+from IPython.display import clear_output
 
 # -*- coding: utf-8 -*-
 
