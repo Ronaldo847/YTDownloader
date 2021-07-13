@@ -95,14 +95,16 @@ def download_file(vid_ID):
   video = pafy.new(url)
 
   streams = video.streams
-  best_q = streams[-1]
+  best_q = str(streams[-1])
   best_qp = best_q.replace("normal:","")
   
   best = video.getbest(preftype = "mp4")
 
-  print("Downloading best video quality at {}".format(best_qp))
+  print("Downloading best video quality at {}...".format(best_qp))
 
   best.download()
+
+  print("Download completed!")
 
     
 if __name__ == "__main__":
