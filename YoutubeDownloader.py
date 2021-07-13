@@ -119,6 +119,7 @@ if __name__ == "__main__":
     prev_page, next_page = next_prev(res_dict)
     
     while True:
+        print("Select next action:")
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
         if page == "P" or page == "p":
             clear_output()
@@ -145,7 +146,14 @@ if __name__ == "__main__":
             prev_page, next_page = next_prev(res_dict)
             
         elif page == "E" or page == "e":
-            break
+            ex_q = input("Quit confirm? [Y] Yes [N] No: ")
+            if ex_q == 'N' or ex_q == 'n':
+                continue
+            else:
+                break
         
         else:
             print("Invalid key!")
+    
+    clear_output()
+    print(".....Session Ended.....")
