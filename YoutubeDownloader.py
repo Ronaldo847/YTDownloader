@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jul  8 14:44:43 2021
-
-@author: S7341
-"""
 import pafy
+import time
+import IPython.display import clear_output
 
 # -*- coding: utf-8 -*-
 
@@ -33,18 +29,19 @@ def authenticate():
 
     # Get credentials and create an API client
     while True:
-        try:
-            flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-                client_secrets_file, scopes)
-            credentials = flow.run_console()
-            global youtube
-            youtube = googleapiclient.discovery.build(
-                api_service_name, api_version, credentials=credentials)
-            break
-        except:
-            print("Invalid key! Try again.")
+      try:
+        flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
+          client_secrets_file, scopes)
+        credentials = flow.run_console()
+        global youtube
+        youtube = googleapiclient.discovery.build(
+          api_service_name, api_version, credentials=credentials)
+        break
+      except:
+        print("Invalid code! Try again.")
     
     print('\n')
+
 
 def main(query, next_prev=""):
     request = youtube.search().list(
@@ -62,20 +59,20 @@ def main(query, next_prev=""):
 
 def query_main():
   a = input(prompt="Enter search item: ")
-  print('\n')
+  clear_output()
   return a 
 
 def title_sort(rep_dict):
   length = len(rep_dict['items'])
   list_res = {}
-  print("{:<3.3} || {:<50.50} || {:<30:30}".format('ID','TITLE','CHANNEL'))
+  print("{:<3.3} || {:<50.50} || {:<30.30}".format('ID','TITLE','CHANNEL'))
   for i in range(length):
     title = rep_dict['items'][i]['snippet']['title']
     vid_ID = rep_dict['items'][i]['id']['videoId']
     ch_ID = rep_dict['items'][i]['snippet']['channelTitle']
     cnum = str(i)
     list_res[cnum] = [title, vid_ID]
-    print("{:<3.3} || {:<50.50} || {:<30.30}".format(cnum, title, ch_ID)
+    print("{:<3.3} || {:<50.50} || {:<30.30}".format(cnum, title, ch_ID))
   print('\n')
   return list_res
 
@@ -111,6 +108,8 @@ def download_file(vid_ID):
 
   print("Download completed!")
 
+  time.sleep(3)
+  clear_output()
     
 if __name__ == "__main__":
     authenticate()
@@ -122,11 +121,13 @@ if __name__ == "__main__":
     while True:
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
         if page == "P" or page == "p":
+            clear_output()
             res_dict = main(query, prev_page)
             ref_list = title_sort(res_dict)
             prev_page, next_page = next_prev(res_dict)
             
         elif page == "N" or page == "n":
+            clear_output()
             res_dict = main(query, next_page)
             ref_list = title_sort(res_dict)
             prev_page, next_page = next_prev(res_dict)
@@ -137,6 +138,7 @@ if __name__ == "__main__":
             download_file(for_dl)
         
         elif page == "Q" or page == "q":
+            clear_output()
             query = query_main()
             res_dict = main(query)
             ref_list = title_sort(res_dict)
@@ -147,6 +149,3 @@ if __name__ == "__main__":
         
         else:
             print("Invalid key!")
-
-
- 
