@@ -63,12 +63,14 @@ def query_main():
 def title_sort(rep_dict):
   length = len(rep_dict['items'])
   list_res = {}
+  print("{:<3.3} || {:<50.50} || {:<30:30}".format('ID','TITLE','CHANNEL'))
   for i in range(length):
     title = rep_dict['items'][i]['snippet']['title']
     vid_ID = rep_dict['items'][i]['id']['videoId']
+    ch_ID = rep_dict['items'][i]['snippet']['channelTitle']
     cnum = str(i)
     list_res[cnum] = [title, vid_ID]
-    print(cnum, title)
+    print("{:<3.3} || {:<50.50} || {:<30.30}".format(cnum, title, ch_ID)
   print('\n')
   return list_res
 
@@ -93,10 +95,12 @@ def download_file(vid_ID):
   video = pafy.new(url)
 
   streams = video.streams
-  for i in streams:
-    print(i)
+  best_q = streams[-1]
+  best_qp = best_q.replace("normal:","")
   
   best = video.getbest(preftype = "mp4")
+
+  print("Downloading best video quality at {}".format(best_qp))
 
   best.download()
 
