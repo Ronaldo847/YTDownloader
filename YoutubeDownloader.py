@@ -80,7 +80,6 @@ def time_query(vid_ID):
 
 def query_main():
   a = input(prompt="Enter search item: ")
-  clear_output()
   return a 
 
 def title_sort(rep_dict):
@@ -222,6 +221,7 @@ if __name__ == "__main__":
         elif page == "Q" or page == "q":
             clear_output()
             page_index = 0
+            print("<New Query> <Previous Query = " + str(query) + " >")
             query = query_main()
             res_dict = main(query)
             ref_list = title_sort(res_dict)
