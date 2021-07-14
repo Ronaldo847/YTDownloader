@@ -215,6 +215,9 @@ if __name__ == "__main__":
             item_str = input(prompt="Select title number you want to download: ")
             for_dl = ref_list[item_str][1]
             download_file(for_dl)
+            time.sleep(3)
+            clear_output()
+            title_sort(res_dict)
         
         elif page == "Q" or page == "q":
             clear_output()
