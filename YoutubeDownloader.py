@@ -59,6 +59,7 @@ def main(query, next_prev=""):
 
 def query_main():
   a = input(prompt="Enter search item: ")
+  page_index = 0
   clear_output()
   return a 
 
@@ -74,16 +75,21 @@ def title_sort(rep_dict):
     list_res[cnum] = [title, vid_ID]
     print("{:<3.3} || {:<50.50} || {:<30.30}".format(cnum, title, ch_ID))
   print('\n')
+  global page_index = 0
+  print("<< Page: " + str(page_index) + " >>")
   return list_res
 
 def next_prev(rep_dict):
     try:
         prev_page = rep_dict['prevPageToken']
+        if page_index > 0:
+          page_index -= 1
     except:
         prev_page = ""
     
     try:
         next_page = rep_dict['nextPageToken']
+        page_index += 1
     except:
         next_page = ""
         
