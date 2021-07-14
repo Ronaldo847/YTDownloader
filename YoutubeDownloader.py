@@ -69,6 +69,15 @@ def count_query(vid_ID):
   views = response['items'][0]['statistics']['viewCount']
   return views
 
+def time_query(vid_ID):
+  request = youtube.videos().list(
+    part="contentDetails",
+    id = vid_ID
+  )
+  response = request.execute()
+  duration = response['items'][0]['contentDetails']['duration']
+  return duration
+
 def query_main():
   a = input(prompt="Enter search item: ")
   clear_output()
@@ -77,18 +86,19 @@ def query_main():
 def title_sort(rep_dict):
   length = len(rep_dict['items'])
   list_res = {}
-  print(111*"-")
-  print("|| {:^3.3} || {:^50.50} || {:^30.30} || {:^10.10} ||".format('ID','TITLE','CHANNEL','VIEWS'))
-  print(111*"-")
+  print(126*"-")
+  print("|| {:^3.3} || {:^50.50} || {:^30.30} || {:^11.11} || {:^10.10} ||".format('ID','TITLE','CHANNEL', 'DURATION', 'VIEWS'))
+  print(126*"-")
   for i in range(length):
     title = rep_dict['items'][i]['snippet']['title']
     vid_ID = rep_dict['items'][i]['id']['videoId']
     ch_ID = rep_dict['items'][i]['snippet']['channelTitle']
     views = count_query(vid_ID)
+    duration = time_query(vid_ID)
     cnum = str(i)
     list_res[cnum] = [title, vid_ID]
-    print("|| {:^3.3} || {:<50.50} || {:<30.30} || {:<10.10} ||".format(cnum, title, ch_ID, views))
-    print(111*"-")
+    print("|| {:^3.3} || {:<50.50} || {:<30.30} || {:<11.11} || {:<10.10} ||".format(cnum, title, ch_ID, duration, views))
+    print(126*"-")
   print("<< Page: " + str(page_index) + " >>")
   print('\n')
   return list_res
@@ -161,13 +171,25 @@ def download_file(vid_ID):
   print("Download completed!")
     
 if __name__ == "__main__":
+    passthru = True
     authenticate()
-    query = query_main()
-    res_dict = main(query)
-    ref_list = title_sort(res_dict)
-    prev_page, next_page = next_prev(res_dict)
-    
     while True:
+      try:
+        query = query_main()
+        res_dict = main(query)
+        ref_list = title_sort(res_dict)
+        prev_page, next_page = next_prev(res_dict)
+        break
+      except:
+        print("An error has occured.")
+        ex = input("Enter a [N] new query or [E] exit this program: ")
+        if ex == "N" or ex == "n":
+          continue
+        else:
+          passthru == False
+          break
+    
+    while passthru == True:
         print("Select next action:")
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
         if page == "P" or page == "p":
