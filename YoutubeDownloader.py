@@ -62,7 +62,6 @@ def main(query, next_prev=""):
 
 def query_main():
   a = input(prompt="Enter search item: ")
-  page_index = 0
   clear_output()
   return a 
 
@@ -147,6 +146,7 @@ if __name__ == "__main__":
         
         elif page == "Q" or page == "q":
             clear_output()
+            page_index = 0
             query = query_main()
             res_dict = main(query)
             ref_list = title_sort(res_dict)
