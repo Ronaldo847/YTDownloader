@@ -77,7 +77,9 @@ def query_main():
 def title_sort(rep_dict):
   length = len(rep_dict['items'])
   list_res = {}
-  print("{:<3.3} || {:<50.50} || {:<30.30} || {:<8.8}".format('ID','TITLE','CHANNEL','VIEWS'))
+  print(111*"-")
+  print("|| {:^3.3} || {:^50.50} || {:^30.30} || {:^10.10} ||".format('ID','TITLE','CHANNEL','VIEWS'))
+  print(111*"-")
   for i in range(length):
     title = rep_dict['items'][i]['snippet']['title']
     vid_ID = rep_dict['items'][i]['id']['videoId']
@@ -85,7 +87,8 @@ def title_sort(rep_dict):
     views = count_query(vid_ID)
     cnum = str(i)
     list_res[cnum] = [title, vid_ID]
-    print("{:<3.3} || {:<50.50} || {:<30.30} || {:<8.8}".format(cnum, title, ch_ID, views))
+    print("|| {:^3.3} || {:<50.50} || {:<30.30} || {:<10.10} ||".format(cnum, title, ch_ID, views))
+    print(111*"-")
   print("<< Page: " + str(page_index) + " >>")
   print('\n')
   return list_res
