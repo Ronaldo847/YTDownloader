@@ -60,6 +60,15 @@ def main(query, next_prev=""):
     print('\n')
     return response
 
+def count_query(vid_ID):
+  request = youtube.videos().list(
+    part="statistics",
+    id = vid_ID
+  )
+  response = request.execute()
+  views = response['items'][0]['statistics']['viewCount']
+  return views
+
 def query_main():
   a = input(prompt="Enter search item: ")
   clear_output()
@@ -68,14 +77,15 @@ def query_main():
 def title_sort(rep_dict):
   length = len(rep_dict['items'])
   list_res = {}
-  print("{:<3.3} || {:<50.50} || {:<30.30}".format('ID','TITLE','CHANNEL'))
+  print("{:<3.3} || {:<50.50} || {:<30.30} || {:<8.8}".format('ID','TITLE','CHANNEL'))
   for i in range(length):
     title = rep_dict['items'][i]['snippet']['title']
     vid_ID = rep_dict['items'][i]['id']['videoId']
     ch_ID = rep_dict['items'][i]['snippet']['channelTitle']
+    views = count_query(vid_ID)
     cnum = str(i)
     list_res[cnum] = [title, vid_ID]
-    print("{:<3.3} || {:<50.50} || {:<30.30}".format(cnum, title, ch_ID))
+    print("{:<3.3} || {:<50.50} || {:<30.30} || {:<8.8}".format(cnum, title, ch_ID, views))
   print("<< Page: " + str(page_index) + " >>")
   print('\n')
   return list_res
