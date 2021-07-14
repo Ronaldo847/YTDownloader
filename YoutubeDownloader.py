@@ -127,9 +127,8 @@ if __name__ == "__main__":
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
         if page == "P" or page == "p":
             clear_output()
-            x = page_index
-            res = lambda x: 1 if (x <= 0) else 0
-            page_index -= res
+            if page_index <= 0:
+              page_index -= 1
             res_dict = main(query, prev_page)
             ref_list = title_sort(res_dict)
             prev_page, next_page = next_prev(res_dict)
