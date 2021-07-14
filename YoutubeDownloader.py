@@ -83,14 +83,11 @@ def title_sort(rep_dict):
 def next_prev(rep_dict):
     try:
         prev_page = rep_dict['prevPageToken']
-        if page_index > 0:
-          page_index -= 1
     except:
         prev_page = ""
     
     try:
         next_page = rep_dict['nextPageToken']
-        page_index += 1
     except:
         next_page = ""
         
@@ -130,12 +127,16 @@ if __name__ == "__main__":
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
         if page == "P" or page == "p":
             clear_output()
+            x = page_index
+            res = lambda x: 1 if (x <= 0) else 0
+            page_index -= res
             res_dict = main(query, prev_page)
             ref_list = title_sort(res_dict)
             prev_page, next_page = next_prev(res_dict)
             
         elif page == "N" or page == "n":
             clear_output()
+            page_index += 1
             res_dict = main(query, next_page)
             ref_list = title_sort(res_dict)
             prev_page, next_page = next_prev(res_dict)
