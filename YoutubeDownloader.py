@@ -113,20 +113,52 @@ def download_file(vid_ID):
   url = pref_url + vid_ID
   video = pafy.new(url)
 
-  streams = video.streams
-  best_q = str(streams[-1])
-  best_qp = best_q.replace("normal:","")
+  v_streams = video.streams
+  a_streams = video.audiostreams
+
+  print("Download as: ")
+  dl_op = input("[V] Video only [A] Audio only [B] Both: ")
+
+  if dl_op == "V" or dl_op == "v":
+    for vk in range(len(v_streams)):
+      print("[" + str(vk) + "] >>> " + str(v_streams[vk]))
+
+    v_qs = int(input("Input number of selected quality (press Enter for best quality): ") or "-1")
+    v_dl = v_streams[v_qs]
+
+    if v_qs > 0:
+      print("Downloading video at {} quality <{} MB>...".format(v_dl, (v_dl.get_filesize()/1000000)))
+    else:
+      print("Downloading video at {} quality (best) <{} MB>...".format(v_dl, (v_dl.get_filesize()/1000000)))
+    v_dl.download()
+
+  elif dl_op == "A" or dl_op == "a":
+    if a_streams != None:
+      for ak in range(len(a_streams)):
+        print("[" + str(ak) + "] >>> " + str(a_streams[ak]))
+      
+      a_qs = int(input("Input number of selected quality (press Enter for best quality): ") or "-1")
+      a_dl = a_streams[a_qs]
+
+      if a_qs > 0:
+        print("Downloading audio at {} quality <{} MB>...".format(a_dl, (a_dl.get_filesize()/1000000)))
+      else:
+        print("Downloading audio at {} quality (best) <{} MB>...".format(a_dl, (a_dl.get_filesize()/1000000)))
+      a_dl.download()
+    else:
+      print("No audio file available.")
   
-  best = video.getbest(preftype = "mp4")
+  else:
+    v_best = video.getbest(preftype = "mp4")
+    a_best = video.getbestaudio(preftype = "any")
 
-  print("Downloading best video quality at {}...".format(best_qp))
-
-  best.download()
+    print("Downloading best video & audio quality at {} & {}".format(v_best, a_best))
+    print("File sizes: Video = " + str(v_best.get_filesize()/1000000) + " MB" + " Audio = " + str(a_best.get_filesize()/1000000) + " MB")
+    
+    v_best.download()
+    a_best.download()
 
   print("Download completed!")
-
-  time.sleep(3)
-  clear_output()
     
 if __name__ == "__main__":
     authenticate()
