@@ -74,8 +74,9 @@ def title_sort(rep_dict):
     cnum = str(i)
     list_res[cnum] = [title, vid_ID]
     print("{:<3.3} || {:<50.50} || {:<30.30}".format(cnum, title, ch_ID))
+  global page_index
+  page_index = 0
   print('\n')
-  global page_index = 0
   print("<< Page: " + str(page_index) + " >>")
   return list_res
 
