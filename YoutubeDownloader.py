@@ -186,6 +186,8 @@ if __name__ == "__main__":
         print("An error has occured.")
         ex = input("Enter a [N] new query or [E] exit this program: ")
         if ex == "N" or ex == "n":
+          clear_output()
+          print("<New Query> <Previous Query = " + str(query) + " >")
           continue
         else:
           passthru == False
