@@ -16,6 +16,9 @@ import googleapiclient.errors
 
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
+global page_index
+page_index = 0
+
 def authenticate():
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
@@ -66,8 +69,6 @@ def query_main():
 def title_sort(rep_dict):
   length = len(rep_dict['items'])
   list_res = {}
-  global page_index
-  page_index = 0
   print("{:<3.3} || {:<50.50} || {:<30.30}".format('ID','TITLE','CHANNEL'))
   for i in range(length):
     title = rep_dict['items'][i]['snippet']['title']
