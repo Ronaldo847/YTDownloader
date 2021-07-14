@@ -128,10 +128,12 @@ def download_file(vid_ID):
 
   print("Download as: ")
   dl_op = input("[V] Video only [A] Audio only [B] Both: ")
+  print('\n')
 
   if dl_op == "V" or dl_op == "v":
     for vk in range(len(v_streams)):
       print("[" + str(vk) + "] >>> " + str(v_streams[vk]))
+    print('\n')
 
     v_qs = int(input("Input number of selected quality (press Enter for best quality): ") or "-1")
     v_dl = v_streams[v_qs]
@@ -146,6 +148,7 @@ def download_file(vid_ID):
     if a_streams != None:
       for ak in range(len(a_streams)):
         print("[" + str(ak) + "] >>> " + str(a_streams[ak]))
+      print('\n')
       
       a_qs = int(input("Input number of selected quality (press Enter for best quality): ") or "-1")
       a_dl = a_streams[a_qs]
@@ -168,7 +171,7 @@ def download_file(vid_ID):
     v_best.download()
     a_best.download()
 
-  print("Download completed!")
+  print("\nDownload completed!\n")
     
 if __name__ == "__main__":
     passthru = True
@@ -192,6 +195,7 @@ if __name__ == "__main__":
     while passthru == True:
         print("Select next action:")
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
+        print('\n')
         if page == "P" or page == "p":
             clear_output()
             if page_index > 0:
