@@ -1,5 +1,6 @@
 import pafy
 import time
+from echar import *
 from IPython.display import clear_output
 
 # -*- coding: utf-8 -*-
@@ -82,7 +83,8 @@ def title_sort(rep_dict):
   print("|| {:^3.3} || {:^50.50} || {:^30.30} || {:^11.11} || {:^10.10} ||".format('ID','TITLE','CHANNEL', 'DURATION', 'VIEWS'))
   print(126*"-")
   for i in range(length):
-    title = rep_dict['items'][i]['snippet']['title']
+    title_r = rep_dict['items'][i]['snippet']['title']
+    title = echar(title_r)
     vid_ID = rep_dict['items'][i]['id']['videoId']
     ch_ID = rep_dict['items'][i]['snippet']['channelTitle']
     views, duration = stat_query(vid_ID)
