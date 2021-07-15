@@ -53,30 +53,23 @@ def main(query, next_prev=""):
         pageToken = next_prev,
         q=query,
         type="video",
-        videoDefinition="high",
+        videoDefinition="any",
         maxResults = 10
     )
     response = request.execute()
     print('\n')
     return response
 
-def count_query(vid_ID):
+def stat_query(vid_ID):
   request = youtube.videos().list(
-    part="statistics",
+    part="statistics,contentDetails",
     id = vid_ID
   )
   response = request.execute()
-  views = response['items'][0]['statistics']['viewCount']
-  return views
-
-def time_query(vid_ID):
-  request = youtube.videos().list(
-    part="contentDetails",
-    id = vid_ID
-  )
-  response = request.execute()
-  duration = response['items'][0]['contentDetails']['duration']
-  return duration
+  views = response['items'][0]['statistics'].get('viewCount', '403 - Forbidden')
+  duration = response['items'][0]['contentDetails'].get('duration', '403 - Forbidden')
+  stat = (views, duration)
+  return stat
 
 def query_main():
   a = input(prompt="Enter search item: ")
@@ -92,8 +85,7 @@ def title_sort(rep_dict):
     title = rep_dict['items'][i]['snippet']['title']
     vid_ID = rep_dict['items'][i]['id']['videoId']
     ch_ID = rep_dict['items'][i]['snippet']['channelTitle']
-    views = count_query(vid_ID)
-    duration = time_query(vid_ID)
+    views, duration = stat_query(vid_ID)
     cnum = str(i)
     list_res[cnum] = [title, vid_ID]
     print("|| {:^3.3} || {:<50.50} || {:<30.30} || {:<11.11} || {:<10.10} ||".format(cnum, title, ch_ID, duration, views))
