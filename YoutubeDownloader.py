@@ -46,7 +46,6 @@ def authenticate():
     
     print('\n')
 
-
 def main(query, next_prev=""):
     request = youtube.search().list(
         part="snippet",
@@ -165,6 +164,15 @@ def download_file(vid_ID):
     a_best.download()
 
   print("\nDownload completed!\n")
+
+def quit_session():
+  ex_q = input("Quit confirm? [Y] Yes [N] No: ")
+    if ex_q == 'N' or ex_q == 'n':
+      return False
+    else:
+      clear_output()
+      print("<<<<< Session Ended >>>>>")
+      return True
     
 if __name__ == "__main__":
     passthru = True
@@ -176,17 +184,22 @@ if __name__ == "__main__":
         ref_list = title_sort(res_dict)
         prev_page, next_page = next_prev(res_dict)
         break
-      except:
-        print("An error has occured.")
-        ex = input("Enter a [N] new query or [E] exit this program: ")
-        if ex == "N" or ex == "n":
-          clear_output()
-          print("<New Query> <Previous Query = " + str(query) + " >")
-          continue
-        else:
-          passthru == False
-          break
-    
+      except KeyError as err:
+        print("An error on parsing the contents has occured.")
+        print(err'\n')
+        break
+      except errors.HttpError as err:
+        print("Bad request or connectivity issues has occured.")
+        print(err'\n')
+
+    print("Select next action:")
+    ex = input("Enter a [N] new query or [E] exit this program: ")
+    if ex == "N" or ex == "n":
+      clear_output()
+      print("<New Query> <Previous Query = " + str(query) + " >")
+    else:
+      passthru != quit_session()
+     
     while passthru == True:
         print("Select next action:")
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
@@ -224,14 +237,8 @@ if __name__ == "__main__":
             prev_page, next_page = next_prev(res_dict)
             
         elif page == "E" or page == "e":
-            ex_q = input("Quit confirm? [Y] Yes [N] No: ")
-            if ex_q == 'N' or ex_q == 'n':
-                continue
-            else:
-                break
+            if quit_session():
+              break
         
         else:
             print("Invalid key!")
-    
-    clear_output()
-    print(".....Session Ended.....")
