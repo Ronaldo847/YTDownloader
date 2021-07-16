@@ -167,12 +167,12 @@ def download_file(vid_ID):
 
 def quit_session():
   ex_q = input("Quit confirm? [Y] Yes [N] No: ")
-    if ex_q == 'N' or ex_q == 'n':
-      return False
-    else:
-      clear_output()
-      print("<<<<< Session Ended >>>>>")
-      return True
+  if ex_q == 'N' or ex_q == 'n':
+    return False
+  else:
+    clear_output()
+    print("<<<<< Session Ended >>>>>")
+    return True
     
 if __name__ == "__main__":
     passthru = True
@@ -186,20 +186,20 @@ if __name__ == "__main__":
         break
       except KeyError as err:
         print("An error on parsing the contents has occured.")
-        print(err'\n')
-        break
+        print(err + '\n')
       except errors.HttpError as err:
         print("Bad request or connectivity issues has occured.")
-        print(err'\n')
+        print(err + '\n')
 
-    print("Select next action:")
-    ex = input("Enter a [N] new query or [E] exit this program: ")
-    if ex == "N" or ex == "n":
-      clear_output()
-      print("<New Query> <Previous Query = " + str(query) + " >")
-    else:
-      passthru != quit_session()
-     
+      print("Select next action:")
+      ex = input("Enter a [N] new query or [E] exit this program: ")
+      if ex == "N" or ex == "n":
+        clear_output()
+        print("<New Query> <Previous Query = " + str(query) + " >")
+      else:
+        passthru != quit_session()
+        break
+       
     while passthru == True:
         print("Select next action:")
         page = input("[P] Previous Page [N] Next Page [D] Download File [Q] New Query [E] End Search : ")
