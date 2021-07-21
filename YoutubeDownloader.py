@@ -72,7 +72,7 @@ def stat_query(vid_ID):
   return stat
 
 def query_main():
-  a = input(prompt="Enter search item: ")
+  a = input(prompt="Enter search keywords or video link: ")
   return a 
 
 def title_sort(rep_dict):
